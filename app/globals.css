@@ -1,0 +1,240 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #ffffff;
+  --color-fg: #171717;
+  --color-muted: #707070;
+  --color-faint: #ededed;
+  --color-accent: #171717;
+  --color-card: #ffffff;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Menlo", "Consolas", monospace;
+
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+
+  --container-column: 600px;
+}
+
+/* Dark palette. Applied when the OS says dark and the reader hasn't forced
+   light, or when they've explicitly chosen dark. These must be plain
+   custom-property overrides, not a nested @theme block — Tailwind v4 hoists
+   @theme out of media queries, which would make them apply unconditionally. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #0a0a0a;
+    --color-fg: #ededed;
+    --color-muted: #909090;
+    --color-faint: #1f1f1f;
+    --color-accent: #ededed;
+    --color-card: #191919;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #0a0a0a;
+  --color-fg: #ededed;
+  --color-muted: #909090;
+  --color-faint: #1f1f1f;
+  --color-accent: #ededed;
+  --color-card: #191919;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 24px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-fg);
+  color: var(--color-bg);
+}
+
+/* ---------- prose ---------- */
+/* Shared by the home page body and every blog post. */
+
+.prose p {
+  margin-bottom: 20px;
+}
+
+.prose a {
+  color: var(--color-fg);
+  text-decoration: underline;
+  text-decoration-color: var(--color-muted);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 150ms ease;
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-fg);
+}
+
+.prose h2 {
+  margin-top: 40px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.prose h3 {
+  margin-top: 28px;
+  margin-bottom: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.prose ul,
+.prose ol {
+  margin-bottom: 20px;
+  padding-left: 20px;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li {
+  margin-bottom: 4px;
+}
+
+.prose li::marker {
+  color: var(--color-muted);
+}
+
+.prose blockquote {
+  margin: 0 0 20px;
+  padding-left: 16px;
+  border-left: 1px solid var(--color-faint);
+  color: var(--color-muted);
+}
+
+.prose hr {
+  margin: 40px 0;
+  border: 0;
+  border-top: 1px solid var(--color-faint);
+}
+
+.prose img {
+  margin: 24px 0;
+  border-radius: 4px;
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.prose :not(pre) > code {
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--color-faint);
+}
+
+.prose pre {
+  margin: 0 0 20px;
+  padding: 16px;
+  overflow-x: auto;
+  border-radius: 6px;
+  border: 1px solid var(--color-faint);
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.prose pre code {
+  display: grid; /* lets rehype-pretty-code highlight whole lines */
+}
+
+/* rehype-pretty-code emits one DOM carrying --shiki-light and --shiki-dark on
+   every token (defaultColor: false). Pick the right variable per theme rather
+   than shipping two copies of each block. */
+.prose pre span {
+  color: var(--shiki-light);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .prose pre span {
+    color: var(--shiki-dark);
+  }
+}
+
+:root[data-theme="dark"] .prose pre span {
+  color: var(--shiki-dark);
+}
+
+.prose [data-line] {
+  padding: 0 2px;
+}
+
+.prose [data-highlighted-line] {
+  background: color-mix(in srgb, var(--color-faint) 70%, transparent);
+}
+
+/* Keep the fan inside the reading column, including enlarged edge cards. */
+.photo-strip {
+  container-type: inline-size;
+  --photo-width: 76px;
+  /* Keep the prints full-size; adapt the overlap to the reading column.
+     Reserve 16px on either side for rotation and selection. */
+  --photo-overlap: clamp(-58px, calc((100cqw - 620px) / 6), -22px);
+}
+
+.photo-card { padding: 4px 4px 14px; }
+.photo-image {
+  width: var(--photo-width);
+  height: auto;
+  aspect-ratio: 76 / 96;
+}
+.prose .photo-image { margin: 0; }
+
+@media (min-width: 640px) {
+  .photo-strip { --photo-width: 76px; --photo-overlap: -22px; }
+  .photo-card { padding: 6px 6px 18px; }
+}
+
+.prose { overflow-wrap: anywhere; }
+.prose table { display: block; max-width: 100%; overflow-x: auto; margin-bottom: 20px; }
+.prose th, .prose td { padding: 8px 12px; border: 1px solid var(--color-faint); }
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 50;
+  transform: translateY(-150%);
+  padding: 8px 12px;
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+.skip-link:focus { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
