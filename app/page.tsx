@@ -10,11 +10,11 @@ export default function Home() {
 
       {/* ---- Intro ------------------------------------------------------ */}
       <p>
-        I&rsquo;m a quantitative developer at{" "}
+        Quantitative developer at{" "}
         <a href="https://www.bportugal.pt/en" target="_blank" rel="noreferrer">
           Banco de Portugal
         </a>
-        . I work on models, data systems, and the infrastructure behind them. Mostly finance, forecasting, risk, and the less visible parts that make the rest hold up.
+        . I build models, data systems, and the infrastructure behind them. Mostly finance, forecasting, risk, and the less visible parts that make the rest hold up.
       </p>
 
       <p>
