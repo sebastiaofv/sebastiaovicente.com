@@ -32,7 +32,7 @@ export default function Home() {
       <h2 className="mt-10 mb-3 text-[18px] font-medium">Contact</h2>
 
       <p>
-        Reach me at <a href="https://www.linkedin.com/in/sebastiaovicente/">/in/sebastiaovicente/</a> or <a href={`mailto:${site.email}`}>{site.email}</a> :)
+        Reach me at <a href="https://www.linkedin.com/in/sebastiaovicente/">/in/sebastiaovicente/</a> or <a href={`mailto:${site.email}`}>{site.email}</a>
       </p>
 
       {/* ---- Photos ----------------------------------------------------- */}
